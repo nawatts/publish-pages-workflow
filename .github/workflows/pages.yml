@@ -20,7 +20,7 @@ jobs:
       run: pip install -r requirements.txt
     - name: Build site
       run: sh ./build.sh
-    - name: Commit
+    - name: Commit and push
       run: |
         git checkout --orphan gh-pages
         git rm -rf .
@@ -31,8 +31,6 @@ jobs:
         git config user.name "${GITHUB_ACTOR}"
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git commit --allow-empty -m "Update site"
-    - name: Push
-      run: |
         mkdir -p ~/.ssh
         echo "${DEPLOY_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
