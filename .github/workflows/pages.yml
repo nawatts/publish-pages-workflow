@@ -1,0 +1,39 @@
+name: Build and Deploy to GitHub Pages
+on:
+  push:
+    branches:
+    - master
+env:
+  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Build site
+      run: ./build.sh
+    - name: Commit
+      run: |
+        git checkout --orphan gh-pages
+        git rm -rf .
+        mv html/* ./
+        rm -r html
+        git add .
+        git commit --allow-empty -m "Update site"
+    - name: Push
+      run: |
+        mkdir -p ~/.ssh
+        echo "${DEPLOY_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git remote rm origin
+        git remote add origin git@github.com:${GITHUB_REPOSITORY}.git
+        git push origin gh-pages
