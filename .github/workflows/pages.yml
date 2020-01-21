@@ -3,8 +3,6 @@ on:
   push:
     branches:
     - master
-env:
-  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 jobs:
   publish:
     name: Build and publish
@@ -21,6 +19,8 @@ jobs:
     - name: Build site
       run: sh ./build.sh
     - name: Commit and push
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
         git checkout --orphan gh-pages
         git rm -rf .
