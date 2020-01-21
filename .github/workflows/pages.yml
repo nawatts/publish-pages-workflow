@@ -39,4 +39,4 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         git remote rm origin
         git remote add origin git@github.com:${GITHUB_REPOSITORY}.git
-        git push origin gh-pages
+        git push --force origin gh-pages
