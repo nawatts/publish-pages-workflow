@@ -26,6 +26,7 @@ jobs:
         git rm -rf .
         mv html/* ./
         rm -r html
+        touch .nojekyll
         git add .
         git config user.name "${GITHUB_ACTOR}"
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
