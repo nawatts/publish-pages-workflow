@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Build site
-      run: ./build.sh
+      run: sh ./build.sh
     - name: Commit
       run: |
         git checkout --orphan gh-pages
