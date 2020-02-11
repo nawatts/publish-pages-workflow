@@ -35,7 +35,7 @@ jobs:
         git rm --cached -rf .
         git clean -fd
 
-        cp -R ../html/ .
+        cp -RT ../html .
         touch .nojekyll
 
         git add .
