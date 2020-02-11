@@ -29,11 +29,15 @@ jobs:
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
+        git worktree add --detach .site
+        cd .site
         git checkout --orphan gh-pages
-        git rm -rf .
-        mv html/* ./
-        rm -r html
+        git rm --cached -rf .
+        git clean -fd
+
+        cp -R ../html/ .
         touch .nojekyll
+
         git add .
         git config user.name "${GITHUB_ACTOR}"
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
@@ -45,4 +49,6 @@ jobs:
         git remote rm origin
         git remote add origin git@github.com:${GITHUB_REPOSITORY}.git
         git push --force origin gh-pages
-        git checkout ${GITHUB_SHA}
+
+        cd ..
+        git worktree remove .site
