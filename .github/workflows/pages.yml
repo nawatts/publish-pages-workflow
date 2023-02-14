@@ -6,6 +6,8 @@ on:
 jobs:
   publish:
     name: Build and publish
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
